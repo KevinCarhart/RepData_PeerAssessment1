@@ -12,7 +12,7 @@ The following integrated document is going to contain a mixture of the following
 
 (e) Inline plots
 
-Preliminary note about locale
+Preliminary note about locale 
 
 Gianfranco Campana points out that the weekdays() function will generate days of the week based on locale, and not necessarily in English.  This could hurt reproducibility in case the code then tests for hardcoded strings like 'Saturday'.  Excellent point.  So I am going to explicitly set locale:
 
