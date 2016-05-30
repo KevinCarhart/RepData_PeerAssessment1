@@ -20,7 +20,7 @@ Gianfranco Campana points out that the weekdays() function will generate days of
 ```r
 Sys.setlocale(category = "LC_ALL", locale = "C")
 ```
-
+ 
 ```
 ## [1] "C"
 ```
