@@ -12,7 +12,7 @@ The following integrated document is going to contain a mixture of the following
 
 (e) Inline plots
 
-Preliminary note about locale 
+Preliminary note about locale
 
 Gianfranco Campana points out that the weekdays() function will generate days of the week based on locale, and not necessarily in English.  This could hurt reproducibility in case the code then tests for hardcoded strings like 'Saturday'.  Excellent point.  So I am going to explicitly set locale:
 
@@ -20,7 +20,7 @@ Gianfranco Campana points out that the weekdays() function will generate days of
 ```r
 Sys.setlocale(category = "LC_ALL", locale = "C")
 ```
- 
+
 ```
 ## [1] "C"
 ```
@@ -146,7 +146,7 @@ print(activity_na_false_rollup1)
 hist(activity_na_false_rollup1$sum_steps,xlab="Total Steps",main="Freq. Distribution of Total Steps in One Day - No Imputation")
 ```
 
-<img src="figure/unnamed-chunk-6-1.png" title="" alt="" width="672" />
+<img src="PA1_template_files/figure-html/unnamed-chunk-6-1.png" title="" alt="" width="672" />
 
 #### 2c. Calculate and report the mean and median of the total number of steps taken per day
 
@@ -184,7 +184,7 @@ ddply(activity_na_false,.(interval),summarize,mean_steps=mean(steps))
 plot(activity_na_false_rollup2$interval,activity_na_false_rollup2$mean_steps,type="l",xlab="Five-minute Interval",main="Average steps in a given interval, for all days",ylab="Average steps in a five-minute period")
 ```
 
-<img src="figure/unnamed-chunk-8-1.png" title="" alt="" width="672" />
+<img src="PA1_template_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" width="672" />
 
 #### 3b. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -204,7 +204,20 @@ print(max_interval)
 
 ## SECTION FOUR. Imputing missing values
 
-#### 4a. What is my strategy for filling in missing values?
+#### 4a. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+
+Remark: the variable activity_na_true was subsetted above, so here to find the total number of missing values, we can simply nrow this.
+
+```r
+nrow(activity_na_true)
+```
+
+```
+## [1] 2304
+```
+	
+
+#### 4b. What is my strategy for filling in missing values?
 
 Remark: Here's the strategy.  I am not going to use impute().  I have a subset found above with just the rows that have NA.  So the date-interval pairs that need a figure are already isolated.  The trick will be to bring in activity_na_false_rollup2 from Part 3 above, which amounts to a handy 'lookup table' of the average steps values per interval!  So I'm going to use merge and populate just the rows-with-NA with a figure from the lookup table for that interval.  At this point, the complementary no-NA's and all-NA's portions of the original activity data can be joined back together using rbind(), (with a couple of nominal steps to make the columns align.)
 
@@ -215,7 +228,7 @@ activity_na_derived_for_rbind <- activity_na_derived[-2]
 activity_na_derived_for_rbind = rename(activity_na_derived_for_rbind,steps=mean_steps)
 ```
 
-#### 4b. Create a new dataset that is equal to the original dataset but with the missing data filled in.
+#### 4c. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
 
 ```r
@@ -223,7 +236,7 @@ activity2 <- rbind(activity_na_false,activity_na_derived_for_rbind)
 ```
 
 
-#### 4c. Make a histogram of the total number of steps taken each day
+#### 4d. Make a histogram of the total number of steps taken each day
 
 
 ```r
@@ -231,9 +244,9 @@ activity2_rollup1 <- ddply(activity2,.(date),summarize,sum_steps=sum(steps))
 hist(activity2_rollup1$sum_steps,xlab="Total Steps",main="Freq. Distribution of Total Steps in One Day - With Imputation")
 ```
 
-<img src="figure/unnamed-chunk-12-1.png" title="" alt="" width="672" />
+<img src="PA1_template_files/figure-html/unnamed-chunk-13-1.png" title="" alt="" width="672" />
 
-#### 4d. Calculate and report the mean and median total number of steps taken per day.
+#### 4e. Calculate and report the mean and median total number of steps taken per day.
 
 
 ```r
@@ -252,11 +265,11 @@ median(activity2_rollup1$sum_steps)
 ## [1] 10766.19
 ```
 
-#### 4e. Do these values differ from the estimates from the first part of the assignment?
+#### 4f. Do these values differ from the estimates from the first part of the assignment?
 
 Remark: The mean didn't change and the median increased by about 1 step - a very small change relative to the scales that we are looking at.
 
-#### 4f. What is the impact of imputing missing data on the estimates of the total daily number of steps?
+#### 4g. What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 Remark: Based on the very small change in the median and no change in the mean, there was essentially no change in the distribution from the earlier section.  All that happened was that the raw 'n' increased by roughly 2000 datapoints. So the height of the bars increased, but there is no change in the position of the bars with respect to each other.
 
@@ -294,7 +307,7 @@ activity_for_panel <- rbind(activity_weekend_rollup,activity_weekday_rollup)
 xyplot(sum_steps~interval | day_group ,data=activity_for_panel,layout=c(1,2),type="a",xlab="Interval",ylab="Number of steps",main="Average steps over interval, for weekends versus weekdays")
 ```
 
-<img src="figure/unnamed-chunk-15-1.png" title="" alt="" width="672" />
+<img src="PA1_template_files/figure-html/unnamed-chunk-16-1.png" title="" alt="" width="672" />
 
 #### 5c. Are there differences in activity patterns between weekdays and weekends?
 
