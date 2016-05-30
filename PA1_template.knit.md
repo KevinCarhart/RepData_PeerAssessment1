@@ -146,7 +146,7 @@ print(activity_na_false_rollup1)
 hist(activity_na_false_rollup1$sum_steps,xlab="Total Steps",main="Freq. Distribution of Total Steps in One Day - No Imputation")
 ```
 
-<img src="PA1_template_files/figure-html/unnamed-chunk-6-1.png" title="" alt="" width="672" />
+<img src="figure/unnamed-chunk-6-1.png" title="" alt="" width="672" />
 
 #### 2c. Calculate and report the mean and median of the total number of steps taken per day
 
@@ -184,7 +184,7 @@ ddply(activity_na_false,.(interval),summarize,mean_steps=mean(steps))
 plot(activity_na_false_rollup2$interval,activity_na_false_rollup2$mean_steps,type="l",xlab="Five-minute Interval",main="Average steps in a given interval, for all days",ylab="Average steps in a five-minute period")
 ```
 
-<img src="PA1_template_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" width="672" />
+<img src="figure/unnamed-chunk-8-1.png" title="" alt="" width="672" />
 
 #### 3b. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -231,7 +231,7 @@ activity2_rollup1 <- ddply(activity2,.(date),summarize,sum_steps=sum(steps))
 hist(activity2_rollup1$sum_steps,xlab="Total Steps",main="Freq. Distribution of Total Steps in One Day - With Imputation")
 ```
 
-<img src="PA1_template_files/figure-html/unnamed-chunk-12-1.png" title="" alt="" width="672" />
+<img src="figure/unnamed-chunk-12-1.png" title="" alt="" width="672" />
 
 #### 4d. Calculate and report the mean and median total number of steps taken per day.
 
@@ -294,7 +294,7 @@ activity_for_panel <- rbind(activity_weekend_rollup,activity_weekday_rollup)
 xyplot(sum_steps~interval | day_group ,data=activity_for_panel,layout=c(1,2),type="a",xlab="Interval",ylab="Number of steps",main="Average steps over interval, for weekends versus weekdays")
 ```
 
-<img src="PA1_template_files/figure-html/unnamed-chunk-15-1.png" title="" alt="" width="672" />
+<img src="figure/unnamed-chunk-15-1.png" title="" alt="" width="672" />
 
 #### 5c. Are there differences in activity patterns between weekdays and weekends?
 
